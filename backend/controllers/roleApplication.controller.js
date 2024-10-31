@@ -187,20 +187,8 @@ const updateRoleApplicationStatusById = async (req, res) => {
         applicant.role = userRole;
         await applicant.save();
 
-         // add cong ty co trong role application
-         const {companyName, companyAddress} = application.applicantCompany;
-         const newCompany = await Company.create({
-           name: companyName,
-           description: "Empty",
-           location: companyAddress,
-           logo: "",
-           website: companyName+".com",
-           userId: applicantId
-         })
-
         return res.status(200).json({
             updatedApplication,
-            newlyCreatedCompany: newCompany,
           success: true,
         });
       } catch (error) {
