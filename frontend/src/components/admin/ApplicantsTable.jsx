@@ -43,21 +43,23 @@ const ApplicantsTable = () => {
       const currentDay = Date.now();
       const formTimeToCheck = new Date(formData.time).getTime();
       let data;
-      if(formTimeToCheck >= currentDay){
-        data =
-        status === "Accepted"
-          ? {
-              status,
-              location: formData.location,
-              time: formData.time,
-            }
-          : {
-              status,
-              reason: formData.reason,
-            };
+
+      if(status === "Accepted"){
+        if(formTimeToCheck >= currentDay){
+          data = {
+            status,
+            location: formData.location,
+            time: formData.time,
+        }
+        }else{
+          toast.error("Time for interview must be in the future!");
+          return;
+        }
       }else{
-        toast.error("Time for interview must be in the future!");
-        return;
+        data = {
+          status,
+          reason: formData.reason,
+        }
       }
 
       const res = await axios.post(
